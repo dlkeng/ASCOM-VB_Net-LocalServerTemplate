@@ -1,0 +1,85 @@
+Inno Setup ASCOM Local Server (for VB)
+-----------------------------
+1) Run the ASCOM Driver Install Script Generator
+   {Image: SetupScreen.png}
+2) Select Driver Information:->Technology: .NET local server (exe)
+3) Set Driver Information:->Short Name:    Acme
+4) Select Driver Information:->Type:->     Focuser
+   This doesn't really account for a multiple driver LocalServer!!!
+5) Set Driver Information:->Version:       1.2
+6) Browse to and select Server Source Files:->Source Folder:           ...\VB Projects\ASCOM\Acme\Server
+7) Browse to and select LocalServer's Source Files:->Main Driver File: ASCOM.Acme.Server.exe
+8) Browse to and select LocalServer's Source Files:->ReadMe File:      ReadMe.htm
+9) Driver Developer:->Name:   XYZ
+10) Driver Developer:->Email: xyx@xyz.com
+    {Image: LocalServer.png}
+11) Save
+
+The script generator saves the information in an Inno script and opens Inno Script Studio.
+
+12) In Inno Script Studio, change the [Setup]AppName to "ASCOM Acme Focuser & FilterWheel Drivers Server"
+13) In Inno Script Studio, change the [Setup]AppVerName to "ASCOM Acme FocuserFilterWheel Driver 1.2"
+14) In Inno Script Studio, change the [Setup]AppSupportURL to "http://groups.yahoo.com/group/ASCOM-Talk/"
+15) In Inno Script Studio, change the [Setup]DefaultDirName to "{cf}\ASCOM\Acme\FocuserFilterWheel"
+16) In Inno Script Studio, change the [Setup]OutputBaseFilename to "Acme FocuserFilterWheel Setup"
+17) In Inno Script Studio, change the [Setup]UninstallFilesDir to "{cf}\ASCOM\Uninstall\Acme\FocuserFilterWheel"
+18) In Inno Script Studio, replace the contents of the [Dirs] section with:
+     Name: "{cf}\ASCOM\Uninstall\Acme"; Flags: uninsalwaysuninstall
+     Name: "{cf}\ASCOM\Uninstall\Acme\FocuserFilterWheel"
+19) In Inno Script Studio, replace the contents of the [Files] section with:
+     Source: ".\bin\Debug\ASCOM.Acme.Server.exe"; DestDir: "{app}"
+     Source: ".\bin\Debug\ASCOM.Acme.Focuser.dll"; DestDir: "{app}"
+     Source: ".\bin\Debug\ASCOM.Acme.FilterWheel.dll"; DestDir: "{app}"
+     Source: ".\ReadMe.htm"; DestDir: "{app}"; Flags: isreadme
+20) Save any changes
+21) Make sure solution is closed in the Visual Studio IDE and
+    compile the Inno script with Project->Compile
+22) Exit Inno Script Studio
+
+The server setup EXE is now located in the Server project folder as: Acme FocuserFilterWheel Setup.exe
+
+23) Run the setup's Acme FocuserFilterWheel Setup.exe to install the Acme Focuser & FilterWheel Server drivers.
+    {Image: SetupWizard.png}
+24) Verify the following folders and files are added in: 
+    C:\Program Files (x86)\Common Files\ASCOM\Acme\FocuserFilterWheel
+     - ASCOM.Acme.Focuser.dll
+     - ASCOM.Acme.FilterWheel.dll
+     - ASCOM.Acme.Server.exe
+     - ReadMe.htm
+25) Verify the following folders and files are added in: 
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Acme\FocuserFilterWheel
+     - unins000.dat
+     - unins000.exe
+
+At this point, the Acme Focuser and FilterWheel drivers should be available for use.
+
+26) Run the 32-bit ASCOM Conform tool, choose the Acme Focuser, Check Conformance
+    and verify that no errors, warnings or issues are found and the Focuser driver
+    passes ASCOM validation!!
+27) Run the 32-bit ASCOM Conform tool, choose the Acme FilterWheel, Check Conformance
+    and verify that no errors, warnings or issues are found and the FilterWheel driver
+    passes ASCOM validation!!
+28) Run the 64-bit ASCOM Conform tool, choose the Acme Focuser, Check Conformance
+    and verify that no errors, warnings or issues are found and the Focuser driver
+    passes ASCOM validation!!
+29) Run the 64-bit ASCOM Conform tool, choose the Acme FilterWheel, Check Conformance
+    and verify that no errors, warnings or issues are found and the FilterWheel driver
+    passes ASCOM validation!!
+
+30) Run the Windows uninstall tool to uninstall ASCOM Acme FocuserFilterWheel Driver 1.2
+31) Verify the following folder (and its files) has been removed from: 
+    C:\Program Files (x86)\Common Files\ASCOM
+     - Acme\FocuserFilterWheel
+     - Acme
+32) Verify the following folder (and its files) has been removed from: 
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall
+     - Acme\FocuserFilterWheel
+     - Acme
+
+At this point, the Acme Focuser and FilterWheel drivers should no longer be available
+in Conform's Select Driver.
+
+
+
+
+
