@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM VB Drivers Inno Setup Checklist</title>
+
+<style type="text/css">
+ body { font-family:Arial; font-size:13; }
+ table { font-family:Arial; font-size:13; }
+ ul   { margin-top: 0; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 10;">
+
+<p></p>
+<p>&nbsp;</p>
+
+
+<h2>ASCOM VB Drivers Inno Setup Checklist</h2>
+
+<hr>
+<p>
+The following is a checklist example of generating a Windows install .EXE using the example of generating an<br>
+ASCOM VB Driver for a fictitious company/product called Acme. 
+The end result is a working Windows install .EXE of<br>
+a tested "working", "non-functional" ASCOM Focuser driver skeleton framework.<br>&nbsp;
+  - "working" means the driver passes the Conformance Checker tool<br>&nbsp;
+  - "non-functional" means it controls no actual hardware (yet)
+</p>
+<p>
+Development Environment<br>&nbsp;
+ - 64-bit Windows 7<br>&nbsp;
+ - Visual Basic 2010 Express Edition<br>&nbsp;
+ - ASCOM Platform 6.1SP1 installed<br>&nbsp;
+ - ASCOM Platform Developer Components installed<br>&nbsp;
+ - ASCOM Driver Conformance Checker installed<br>&nbsp;
+ - Inno Setup installed<br>&nbsp;
+ - Inno Setup QuickStart Pack installed
+</p>
+<br>
+
+<hr>
+
+<table align="left" border="0" width="750">
+  <tr>
+    <th>
+    </th>
+    <th align="left">
+      &nbsp;&nbsp;&nbsp;Checklist
+    </th>
+    <th align="left">
+      Image
+    </th>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      1)
+    </td>
+    <td>
+      Run the ASCOM <i>Driver Install Script Generator</i>
+    </td>
+    <td>
+      <a href="VisualBasic/ASCOM Driver/Inno Setup/Images/SetupScreen.png">
+        SetupScreen.png
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      2)
+    </td>
+    <td>
+      Select Driver Information:->Technology: <b>.NET assembly (dll)</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      3)
+    </td>
+    <td>
+      Set Driver Information:->Short Name: <b>Acme</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      4)
+    </td>
+    <td>
+      Select Driver Information:->Type:-> <b>Focuser</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      5)
+    </td>
+    <td>
+      Set Driver Information:->Version: <b>1.2</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      6)
+    </td>
+    <td>
+      Browse to and select Focuser Source Files:->Source Folder: <b>...\VB Projects\ASCOM\Acme\Focuser</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      7)
+    </td>
+    <td>
+      Browse to and select Focuser's Source Files:->Main Driver File: <b>ASCOM.Acme.Focuser.dll</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      8)
+    </td>
+    <td>
+      Browse to and select Focuser's Source Files:->ReadMe File: <b>ReadMe.htm</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      9)
+    </td>
+    <td>
+      Driver Developer:->Name: <b>XYZ</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      10)
+    </td>
+    <td>
+      Driver Developer:->Email: <b>xyx@xyz.com</b>
+    </td>
+    <td>
+      <a href="VisualBasic/ASCOM Driver/Inno Setup/Images/Driver.png">
+        Driver.png
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      11)
+    </td>
+    <td>
+      Save<br><br>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    The script generator saves the information in an Inno script in the Focuser's
+    project folder and opens Inno Script Studio.<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      12)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]AppSupportURL to<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b>"http://groups.yahoo.com/group/ASCOM-Talk/"</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      13)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]OutputBaseFilename to <b>"Acme Focuser Setup"</b>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      14)
+    </td>
+    <td>
+      In Inno Script Studio, replace the contents of the [Files] section with:<br>
+      <code>Source: ".\bin\Debug\ASCOM.Acme.Focuser.dll"; DestDir: "{app}"<br>
+      Source: ".\ReadMe.htm"; DestDir: "{app}"; Flags: isreadme</code>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      15)
+    </td>
+    <td>
+      Save any changes
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      16)
+    </td>
+    <td>
+    Make sure solution is closed in the Visual Studio IDE and
+    compile the Inno script with Project->Compile
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      17)
+    </td>
+    <td>
+    Exit Inno Script Studio<br><br>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    The driver setup EXE is now located in the Focuser project folder as: <b>Acme Focuser Setup.exe</b>
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      18)
+    </td>
+    <td>
+    Run the setup's <i>Acme Focuser Setup.exe</i> to install the Acme Focuser driver
+    </td>
+    <td>
+      <a href="VisualBasic/ASCOM Driver/Inno Setup/Images/SetupWizard.png">
+        SetupWizard.png
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      19)
+    </td>
+    <td>
+    Verify the following files are added in: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Focuser<br>
+     - ASCOM.Acme.Focuser.dll<br>
+     - ReadMe.htm
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      20)
+    </td>
+    <td>
+    Verify the following folder and files are added in: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Focuser\Acme<br>
+     - unins000.dat<br>
+     - unins000.exe
+     <br><br>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    At this point, the Acme Focuser driver should be available for use.
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      21)
+    </td>
+    <td>
+    Run the 32-bit ASCOM <b>Conform</b> tool, choose the <i>Acme Focuser</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      22)
+    </td>
+    <td>
+    Run the 64-bit ASCOM <b>Conform</b> tool, choose the <i>Acme Focuser</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      23)
+    </td>
+    <td>
+    Run the Windows uninstall tool to uninstall <i>ASCOM Acme Focuser Driver 1.2</i>
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      24)
+    </td>
+    <td>
+    Verify the following files have been removed from: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Focuser<br>
+     - ASCOM.Acme.Focuser.dll<br>
+     - ReadMe.htm
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      25)
+    </td>
+    <td>
+    Verify the following folder (and its files) has been removed from: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Focuser<br>
+     - Acme
+    </td>
+    <td>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+    At this point, the Acme Focuser should no longer be available in Conform's Select Driver.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      Note:
+    </td>
+    <td>
+      If the driver was installed on a 64-bit O.S., after the uninstall, some
+      of the registry entries associated with the 64-bit install still remain
+      in the registry. This is a known issue!<br>
+      (Work-around: In the Inno Setup script, in the [UninstallRun] section,
+       after the "<code>{dotnet4032}\regasm.exe</code>" line, add a
+       "<code>{dotnet4064}\regasm.exe</code>"
+       line, copied from the [Run] section, to re-register the 64-bit driver
+       immediately before unregistering it.)
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      See
+      <a href="ASCOM_VB_InnoSetup_Driver_WalkThru.htm">
+      Walk-Through</a>
+      for image-annotated walk-through version.
+      <br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      <br>
+    </td>
+  </tr>
+</table>
+
+  </body>
+</html>

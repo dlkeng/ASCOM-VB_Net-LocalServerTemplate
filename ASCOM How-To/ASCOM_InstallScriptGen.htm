@@ -1,0 +1,404 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM Driver Install Script Generator Info</title>
+
+<style type="text/css">
+ body { font-family:Arial; font-size:14; }
+ table { font-family:Arial; font-size:14; }
+ ul   { margin-top: 0; }
+ li   { margin-bottom: 2; margin-top: 2; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 30;">
+
+<p>
+ <a href="http://ascom-standards.org/">
+ <img src="ASCOM.png" align="right" alt="ASCOM Standards for Astronomy" 
+      title="ASCOM Standards for Astronomy" border="0"><br></a>
+</p>
+
+<h2>ASCOM Driver Install Script Generator Info</h2>
+
+<hr>
+Description of the items on the ASCOM Driver Install Script Generator form and information
+on those items' usage in the resultant Inno Setup script.
+
+<h4 >Screen Items</h4>
+<hr>
+
+<div align="left">
+
+<table align="center" border="0">
+  <tr>
+    <td>
+        <img src="CSharp/ASCOM LocalServer/Inno Setup/Images/SetupScreen.png">
+        <br>
+    </td>
+  </tr>
+</table>
+
+<table align="center" border="0">
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="center">
+      <b>Item</b>
+    </td>
+    <td align="center">
+      <b>Tool Tips</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Driver Information:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Technology:<br>&nbsp;
+        - In-process COM (dll)<br>&nbsp;
+        - Local server COM (exe)<br>&nbsp;
+        - .NET assembly (dll)<br>&nbsp;
+        - .NET local server (exe)
+    </td>
+    <td valign="top">
+        "The technology and type of the driver"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Friendly Name:
+    </td>
+    <td>
+        "(COM only) Descriptive title that users will see in the Chooser"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Short Name:
+    </td>
+    <td>
+        "The first (COM) or second (.NET) part of the ProgID for the driver"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Type:<br>&nbsp;
+        - Camera<br>&nbsp;
+        - Dome<br>&nbsp;
+        - FilterWheel<br>&nbsp;
+        - Focuser<br>&nbsp;
+        - Rotator<br>&nbsp;
+        - SafetyMonitor<br>&nbsp;
+        - Switch<br>&nbsp;
+        - Telescope<br>&nbsp;
+        - Video<br>
+    </td>
+    <td valign="top">
+        "The last part of the driver's primary ProgID"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Aux Type:
+    </td>
+    <td>
+        "(optional) The last part of the driver's secondary ProgID"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Version:
+    </td>
+    <td>
+        "The version of the driver"
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Source Files:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Source Folder:
+    </td>
+    <td>
+        "Location of the driver itself and (optionally) the read-me for the driver."<br>
+        "For .NET the driver assembly is assumed to be in the ..\bin\Release subfolder."
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Main Driver File:
+    </td>
+    <td>
+        "The driver DLL or EXE file"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      ReadMe File:
+    </td>
+    <td>
+        "The read-me file for the driver (HTML or text)"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      [&nbsp;]
+    </td>
+    <td>
+        Include option to install driver source code
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Driver Developer:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Name:
+    </td>
+    <td>
+        "Your name"
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Email:
+    </td>
+    <td>
+        "Your email address"
+    </td>
+  </tr>
+
+</table>
+
+<hr>
+<h4 >Item Usage in Inno Setup Script</h4>
+<hr>
+<table align="center" border="0">
+  <tr>
+    <td align="center">
+      <b>Item</b>
+    </td>
+    <td align="center">
+      <b>Script Usage Info</b><sup>&#135;</sup>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Driver Information:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Technology:
+    </td>
+    <td>
+        for .NET development, select "<i>.NET assembly (dll)</i>" for driver or 
+        "<i>.NET local server (exe)</i>" for local server
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Friendly Name:
+    </td>
+    <td>
+        not settable by user for .NET technology
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Short Name:
+    </td>
+    <td>
+        the second (.NET) part of the ProgID for the driver (i.e. product name)<br>&nbsp;
+        part of: [Setup]AppName<br>&nbsp;
+        part of: [Setup]AppVerName<br>&nbsp;
+        part of: [Setup]OutputBaseFilename<br>&nbsp;
+        part of: [Setup]UninstallFilesDir<br>&nbsp;
+        part of: [Dirs] directory name
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Type:
+    </td>
+    <td>
+        Driver: select the type of ASCOM driver, Server: ???<br>&nbsp;
+        part of: [Setup]AppName<br>&nbsp;
+        part of: [Setup]AppVerName<br>&nbsp;
+        part of: [Setup]DefaultDirName<br>&nbsp;
+        part of: [Setup]UninstallFilesDir<br>&nbsp;
+        part of: [Dirs] directory name
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      Aux Type:
+    </td>
+    <td>
+        not settable by user for .NET types
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Version:
+    </td>
+    <td>
+        sets the version number of the driver<br>&nbsp;
+        part of: [Setup]AppVerName<br>&nbsp;
+        part of: [Setup]AppVersion
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Source Files:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Source Folder:
+    </td>
+    <td>
+        base folder path of the driver or server and read-me and source files<br>&nbsp;
+        for .NET, the driver DLL or server EXE expected in subfolder "bin\Release"<br>&nbsp;
+        part of: [Files]Source      driver DLL or server EXE file<br>&nbsp;
+        part of: [Files]Source      read-me file<br>&nbsp;
+        part of: [Files]Source      source files (if sources included)<br>&nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Main Driver File:
+    </td>
+    <td>
+        the name of the driver DLL or server EXE file<br>&nbsp;
+        part of: [Files]Source            driver DLL or server EXE<br>&nbsp;
+        part of: [Run]Filename            driver DLL registration<br>&nbsp;
+        part of: [UninstallRun]Filename   driver DLL unregistration
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+      ReadMe File:
+    </td>
+    <td>
+        the read-me file for the driver or server (HTML or text)
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      [&nbsp;]
+    </td>
+    <td>
+        [X] Include option to install driver source code<br>&nbsp;
+        adds [Tasks]Name and [Files]Source to install source files
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <b>Driver Developer:</b>
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Name:
+    </td>
+    <td>
+        developer or company name<br>&nbsp;
+        part of: [Setup]AppPublisher
+    </td>
+  </tr>
+
+  <tr>
+    <td valign="top">
+      Email:
+    </td>
+    <td>
+        developer or company email address<br>&nbsp;
+        part of: [Setup]AppPublisher<br>&nbsp;
+        part of: [Setup]AppPublisherURL
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <sup>&#135;</sup> [Setup]AppPublisherURL is Inno Setup Script's [section_name]section_directive
+    </td>
+  </tr>
+</table>
+
+<br>
+<br>
+<br>
+Note: For ASCOM drivers, the Driver Install Script Generator does a fairly complete job of generating
+a working Inno Setup script. However, for ASCOM local servers, a lot more editing of the resulting
+Inno Setup script is required to generate an appropriate install EXE.
+
+</div>
+    <p>
+    <br>
+    <br>
+  </body>
+</html>

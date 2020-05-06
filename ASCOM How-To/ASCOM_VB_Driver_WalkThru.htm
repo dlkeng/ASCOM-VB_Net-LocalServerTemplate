@@ -1,0 +1,313 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM VB Drivers Walk-Through</title>
+<meta http-equiv="imagetoolbar" content="no">
+
+<style type="text/css">
+ body { font-family:Arial; font-size:13; }
+ table { font-family:Arial; font-size:13; }
+ ul   { margin-top: 0; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 10;">
+
+<p></p>
+<p>&nbsp;</p>
+
+
+<h2>ASCOM VB Drivers Development Framework Walk-Through</h2>
+
+<hr>
+<p>
+The following is an annotated walk-through of an example of generating an ASCOM VB Driver for a
+fictitious company/product<br>
+called Acme. 
+The screen images items associated with each step are highlighted in <b><font color="red">red</font></b>.
+The end result is a tested<br>
+"working", "non-functional" ASCOM Focuser driver skeleton framework.<br>&nbsp;
+  - "working" means the driver passes the Conformance Checker tool<br>&nbsp;
+  - "non-functional" means it controls no actual hardware (yet)
+</p>
+<p>
+Development Environment<br>&nbsp;
+ - 64-bit Windows 7<br>&nbsp;
+ - Visual Basic 2010 Express Edition<br>&nbsp;
+ - ASCOM Platform 6.1SP1 installed<br>&nbsp;
+ - ASCOM Platform Developer Components installed<br>&nbsp;
+ - ASCOM Driver Conformance Checker installed<br>&nbsp;
+ Note: All projects in a multi-project solution in Express Editions of Visual Studio must use the same programming language.
+</p>
+<br>
+
+<hr>
+<b>Visual VB 2010 Express</b> &lt;---- Run as administrator !!!
+<br><br>
+<table align="left" border="0" width="750">
+  <tr>
+    <td align="right" valign="top">
+      1)
+    </td>
+    <td>
+      New Project - <b>ASCOM Device Driver (VB)</b><br>
+          - Name: <b>Acme</b><br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/NewProject.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      2)
+    </td>
+    <td>
+      ASCOM Driver Project Wizard<br>
+    - Device Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <b>Focuser</b><br>
+    - Device Name/Model - <b>Acme</b><br>
+    - Create<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/WizardFocuser.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      3)
+    </td>
+    <td>
+      File->Save All -<br>
+    - Name: &nbsp;&nbsp;&nbsp;&nbsp;<b>Focuser</b><br>
+    - Location: <b>...\VB Projects\ASCOM</b><br>
+    - Solution Name: <b>Acme</b>  &lt;----------- <b>MAKE SURE</b>!!! because Visual Studio makes same as Name!!!<br>
+    - [X] Create directory for solution<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/SaveProject.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      4)
+    </td>
+    <td>
+      Set Focuser Properties->Application->Assembly name: <b>ASCOM.Acme.Focuser</b><br>
+      - Save project<br>
+      (The template wizard does not include full assembly name - done here for LocalServer consistency.)<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/FocuserAssemblyName.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      5)
+    </td>
+    <td>
+      Enable 32 and 64-bit code generation for the Focuser driver by modifying (outside of the Visual Basic IDE
+      environment) the &lt;PlatformTarget> tag in the Focuser driver's Focuser.vbproj file to
+      be <b>AnyCPU</b> located under the following tag:   (it was "x86"!!!)<br>
+      &nbsp; &lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "><br>
+      (i.e. in Focuser.vbproj: &lt;PlatformTarget><b>AnyCPU</b>&lt;/PlatformTarget>)<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      6)
+    </td>
+    <td>
+      Enable XML documentation for the Focuser driver by modifying (outside of the Visual Basic IDE
+      environment) the empty &lt;DocumentationFile> tags in the Focuser driver's Focuser.vbproj file to
+      be the project's name <b>Focuser.xml</b> located under the following tags:<br>
+      &nbsp; &lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "><br>
+      &nbsp; &lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "><br>
+      (i.e. in Focuser.vbproj: &lt;DocumentationFile><b>Focuser.xml</b>&lt;/DocumentationFile>)<br>
+      (no "Generate XML documentation file" option in Visual Basic 2010 Express Edition's Properties->Compile)<br>
+      A prompt will be given to reload the Focuser project due to the changed project file.<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/ReloadProject.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      7)
+    </td>
+    <td>
+      Build the project<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      8)
+    </td>
+    <td>
+      Run the ASCOM <b>Conform</b> tool. If it is running in 64 bit mode, change it to run in 32 bit mode with:<br>
+      Options->Conformance Options->General->Conform Settings: [X] Run as 32bit on a 64bit OS<br>
+      (this is needed because Visual Studio's <i>Register for COM interop</i> only registers
+      the drivers as a 32bit COM driver, but not also as a 64bit COM driver on a 64-bit machine -
+      as would be done by the Inno Setup installer)<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/Conform64Bits.png"><br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/Conform32Bits.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      9)
+    </td>
+    <td>
+      Using the ASCOM <b>Conform</b> tool, Options->Check Focuser, Options->Select Driver,
+      select the <i>Acme Focuser</i><br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/ConformChooserFocuser.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      10)
+    </td>
+    <td>
+      Select ASCOM Focuser Chooser->Properties... to get the DeviceName Setup dialog for the Focuser<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/ConformFocuserProperties.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      11)
+    </td>
+    <td>
+      Run the Check Conformance and verify that no errors, warnings or issues are found and the
+   Focuser driver passes ASCOM validation!!<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/ConformFocuser.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      12)
+    </td>
+    <td>
+      Add New Project for application for testing the driver<br>
+     - File->Add->New Project...<br>
+     - <b>ASCOM Driver Test Forms Application (VB)</b><br>
+        - Name: <b>TestDriver</b><br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/AddTestDriver.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      13)
+    </td>
+    <td>
+      ASCOM Driver Project Wizard<br>
+     - Device Class &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <b>Focuser</b><br>
+     - Device Name/Model - <b>Acme</b><br>
+     - Create<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/WizardFocuser.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      14)
+    </td>
+    <td>
+      If <b>Option Strict</b> is turned on, remove the following error:<br>
+      &nbsp;&nbsp;On Form1.vb, line 43, add <b>.ToString</b> to the end of the line<br>
+      (This is an issue with the VB Driver Test Forms Application template.)<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/OptionStrictError.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      15)
+    </td>
+    <td>
+      Right-Click Solution Explorer->TestDriver project->Set as Startup Project to set
+    the <b>TestDriver</b> project as the startup project<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      16)
+    </td>
+    <td>
+      Build the solution<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      17)
+    </td>
+    <td>
+      Run the code (F5), click the test form's Choose button, select the <i>Acme Focuser</i>,
+    select ASCOM Focuser Chooser->Properties... to get the DeviceName Setup dialog for the Focuser,
+    OK those dialogs and verify the ASCOM.Acme.Focuser is shown on the test form.<br><br>
+      <img src="VisualBasic/ASCOM Driver/Images/TestDriverResults.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+    At this point, additional code can be added to the Focuser driver to control
+    the Focuser hardware and additional code and controls can be added to the 
+    <b>TestDriver</b> project to exercise and debug the features of the in-proc DLL Focuser driver.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+    When the ASCOM driver development is complete, the ASCOM Driver Install Script Generator can
+    be used to generate an Inno Setup script to generate a Windows setup executable
+    that can be used to distribute the driver just developed.<br>
+    Note: The driver project should be closed in the IDE before running the Inno Setup compiler.
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      18)
+    </td>
+    <td>
+    Clean the solution with Build->Clean Solution so that the driver will be automatically
+    unregistered from COM and ASCOM
+    (if menu Build->Clean Solution is not shown, use Tools->Customize->Commands->Menu bar: Build->
+     Add Command... -> Categories: Build, Commands: Clean Solution, OK, Close to add that menu item)
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+    At this point, the <i>Acme Focuser</i> should no longer be available in <b>Conform</b>'s Select Driver.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      See
+      <a href="ASCOM_VB_Driver_Checklist.htm">
+      Checklist</a>
+      for simple checklist version.
+      <br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      <br>
+    </td>
+  </tr>
+</table>
+
+  </body>
+</html>
+

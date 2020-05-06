@@ -1,0 +1,442 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM Developer FAQ</title>
+
+<style type="text/css">
+ body { font-family:Arial; font-size:14; }
+ table { font-family:Arial; font-size:14; }
+ ul   { margin-top: 0; }
+ li   { margin-bottom: 2; margin-top: 2; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 10;">
+
+<p>
+ <a href="http://ascom-standards.org/">
+ <img src="ASCOM.png" align="right" alt="ASCOM Standards for Astronomy" 
+      title="ASCOM Standards for Astronomy" border="0"><br></a>
+</p>
+
+<h2>ASCOM Developer FAQ</h2>
+
+<hr>
+<h4 >ASCOM Developer FAQ</h4>
+<hr>
+
+<div align="left">
+
+<table  border="0">
+  <tr>
+    <td align="left" valign="top">
+      <b>Q1:</b>
+    </td>
+    <td align="left" valign="top">
+       Why does the ASCOM Chooser complain about an "<i>Incompatible Driver</i>" and
+       "<i>Cannot find the driver executable</i>" even though the file path and name it
+       reports are valid?
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A1:</b>
+    </td>
+    <td align="left" valign="top">
+        This is a known issue with the ASCOM Chooser in the C# development environment
+        in which the Visual Studio's "<i>Register for COM interop</i>" setting registers a path
+        to the driver that includes a '<b>#</b>' character (as in "C# Projects"). A work-
+        around is to develop the ASCOM driver in a folder that doesn't include
+        a '<b>#</b>' character in its path. This should not be a problem for an installed
+        ASCOM driver as the install path is not usually problematic.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q2:</b>
+    </td>
+    <td align="left" valign="top">
+        Why does using ASCOM Chooser in the ASCOM Conform tool in 64bit mode generate
+        a complaint about an "<i>Incompatible Driver</i>" and "<i>This 32bit only driver won't
+        work in a 64bit application even though it is correctly registered as a 32bit
+        COM driver.</i>"?
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A2:</b>
+    </td>
+    <td align="left" valign="top">
+        This means the driver was built only for a 32-bit platform. In the Visual
+        Basic template for the "<i>ASCOM Device Driver (VB)</i>", the in the "<b>Debug</b>" Active
+        solution configuration shown in the Configuration Manager, even though
+        "<b>Any CPU</b>" is the only Active solution platform selectable, in reality,
+        it only builds the driver code for the "<b>x86</b>" platform. The easiest way
+        to correct this is to edit the driver project's .vbproj file outside of
+        the Visual Studio IDE and change the following in the:<br>
+        <code>&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "></code><br>
+        change:<br>
+          <code>&nbsp;&lt;PlatformTarget>x86&lt;/PlatformTarget></code><br>
+        to:<br>
+          <code>&nbsp;&lt;PlatformTarget><b>AnyCPU</b>&lt;/PlatformTarget></code><br>
+        This is not a problem with the "<b>Release</b>" Active solution configuration.
+        A work-around in the ASCOM Conform tool is to run the tool in 32bit mode.
+        This can be changed with its:<br> 
+         &nbsp;Options->Confomance Options->General-> [X] Run as 32bit on a 64bit OS.<br>
+        However, the driver will still not be usable in a 64-bit application.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q3:</b>
+    </td>
+    <td align="left" valign="top">
+        Why does using ASCOM Chooser in the ASCOM Conform tool in 64bit mode generate
+        a complaint about an "<i>Incompatible Driver</i>" and "<i>This 64bit capable driver is
+        only registered as a 32bit COM driver.</i>"?
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A3:</b>
+    </td>
+    <td align="left" valign="top">
+        This means the driver was built for a 32 and 64-bit platform, but it was
+        registered to COM and ASCOM as only for a 32-bit platform. The most likely
+        cause of this is using the Visual Studio IDE to register the driver when it
+        is built with the Visual Studio's "<i>Register for COM interop</i>" setting. This
+        driver registration in the IDE only registers it as a 32-bit driver. The
+        work-around in the ASCOM Conform tool is to run the tool in 32bit mode.
+        This can be changed with its:<br> 
+         &nbsp;Options->Confomance Options->General-> [X] Run as 32bit on a 64bit OS.<br>
+        However, testing a driver like this with a 64-bit application will require
+        it be registered for a 64-bit platform outside the Visual Studio IDE.
+        This can be done with the standard installer generation script generated by
+        the "<i>ASCOM Driver Install Script Generator</i>" tool and "<i>Inno Script Studio</i>" or
+        manually from the command line by:  (must use "<b>Framework64</b>" for 64-bits)<br>
+         &nbsp;C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /codebase <i>driver_name</i>.dll
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q4:</b>
+    </td>
+    <td align="left" valign="top">
+        In Visual Basic's IDE, projects generated using the ASCOM templates do not
+        support using the ''' method of automatic XML documentation comments.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A4:</b>
+    </td>
+    <td align="left" valign="top">
+        Visual Basic projects generated using the ASCOM templates have the XML
+        automatic XML documentation comments operation turned off by using empty
+        &lt;DocumentationFile> tags in the .vbproj project configuration file.<br>
+        This can be changed by editing the <DocumentationFile> tags in the
+        project's .vbproj file outside of the Visual Studio IDE in the following tags:<br>
+        &nbsp;&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "><br>
+        &nbsp;&lt;PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' "><br>
+        change the <DocumentationFile>&lt;/DocumentationFile> tags to:<br>
+        &nbsp;&lt;DocumentationFile><i>driver_name</i>.xml&lt;/DocumentationFile>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q5:</b>
+    </td>
+    <td align="left" valign="top">
+        Why are the shared resources not being shared when debugging an ASCOM local
+        server from the Visual Studio IDE and an external application?
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A5:</b>
+    </td>
+    <td align="left" valign="top">
+        When running the local server in the IDE environment, any other application
+        client that connects to a driver supported by the local server will open a
+        new copy of the local server (as can be observed in Windows Task Manager).<br>
+        To test a single local server supporting multiple application clients, a
+        test application client running in the local server project solution should
+        <b>NOT</b> be used! Instead, in the case of a multiple driver served local server,
+        the project's test application can access each of the drivers in the same
+        application. In the case of a multiple client driver served by the local
+        server, multiple external clients can be run to test the driver's multiple
+        client support. Unfortunately, the Visual Studio Express Editions do not 
+        support attaching the debugger to the local server process, so it is more
+        difficult to debug the local server using the Visual Studio Express Editions.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+      <b>Q6:</b>
+    </td>
+    <td align="left" valign="top">
+        How can the various ASCOM TraceLogger log tracing be easily turned on or off?
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A6:</b>
+    </td>
+    <td align="left" valign="top">
+        Any ASCOM client that uses the ASCOM Chooser can be used to enable
+        or disable the various TraceLogger logging using the Chooser's <b>Trace</b> menu.
+        The trace logs are stored in date-based Log folders under: My Documents/ASCOM
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+</table>
+
+<hr>
+<h4 >Visual Studio FAQ</h4>
+<hr>
+<table  border="0">
+  <tr>
+    <td align="left" valign="top">
+      <b>Q1:</b>
+    </td>
+    <td align="left" valign="top">
+       In Visual C# Express, cannot add a project to the existing solution.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A1:</b>
+    </td>
+    <td align="left" valign="top">
+        In Visual C# Express, the only way to add a project to a solution is to
+        Right-Click the solution name in Solution Explorer->Add->New Project...
+        Unlike Visual Basic Express, there is no File->Add->New Project...
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q2:</b>
+    </td>
+    <td align="left" valign="top">
+        In the Visual Studio's Solution Explorer, the solution is not shown.
+        This is needed to add a project to the solution in Visual C# Express.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A2:</b>
+    </td>
+    <td align="left" valign="top">
+        In Tools->Options->Projects and Solutions->General, check the option
+        [X] <i>Always show solution</i>.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q3:</b>
+    </td>
+    <td align="left" valign="top">
+        In the Visual Studio's Tools->Options dialog, the Projects and Solutions
+        item is not shown. This is needed to enable the <i>Always show solution</i> option
+        or the <i>Show advanced build configurations</i> option.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A3:</b>
+    </td>
+    <td align="left" valign="top">
+        In Tools->Options, check the [X] <i>Show all settings</i> at the bottom of the dialog.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q4:</b>
+    </td>
+    <td align="left" valign="top">
+        In Visual Studio, the Build->Configuration Manager is not present.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A4:</b>
+    </td>
+    <td align="left" valign="top">
+        In Tools->Options->Projects and Solutions->General, check the option
+        [X] <i>Show advanced build configurations</i>.
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q5:</b>
+    </td>
+    <td align="left" valign="top">
+        How to apply the same property settings to all build configurations.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A5:</b>
+    </td>
+    <td align="left" valign="top">
+        In the project's Projects page, select the "<b>All Configurations</b>"
+        Configuration: item, then make the global configuration settings on
+        that tab. Each tab that allows global vs. single configuration settings
+        has their own Configuration: configuration selection.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q6:</b>
+    </td>
+    <td align="left" valign="top">
+        How to apply the different property settings to different build configurations.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A6:</b>
+    </td>
+    <td align="left" valign="top">
+        In the project's Projects page, select the Configuration: item in which to
+        make subsequent configuration settings for and then make the configuration
+        settings on that tab for that configuration. Then select the next 
+        Configuration: item in which to make subsequent configuration settings for
+        and then make the configuration settings on that tab for that configuration.
+        Each tab that allows global vs. single configuration settings has their own
+        Configuration: configuration selection.
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    &nbsp;
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>Q7:</b>
+    </td>
+    <td align="left" valign="top">
+        In Visual Studio, the Build->Clean Solution is not present.
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <b>A7:</b>
+    </td>
+    <td align="left" valign="top">
+        In Tools->Customize->Commands tab,<br>
+        &nbsp;select Menu bar: <b>Build</b><br>
+        under Controls:<br>
+        &nbsp;select <b>Add Command...</b><br>
+        &nbsp;select Categories: <b>Build</b>, Commands: <b>Clean Solution</b>, then OK,<br>
+        select the added Clean Solution item and use Move Up or Move Down to
+        move it to the desired menu position,<br>
+        select Close to add that menu item<br>
+        Note: The Build->Clean Solution item will not be shown if the solution item
+         is not shown in the Solution Explorer.
+    </td>
+  </tr>
+</table>
+
+
+
+</div>
+    <p>
+    <br>
+  </body>
+</html>

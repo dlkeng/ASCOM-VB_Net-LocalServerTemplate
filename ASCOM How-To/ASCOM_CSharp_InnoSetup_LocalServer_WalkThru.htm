@@ -1,0 +1,444 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM C# LocalServer Inno Setup Walk-Through</title>
+<meta http-equiv="imagetoolbar" content="no">
+
+<style type="text/css">
+ body { font-family: Arial; font-size: 13; }
+ table { font-family: Arial; font-size: 13; }
+ ul   { margin-top: 0; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+ pre  { margin-top: 2; margin-bottom: -10; margin-left: -40; }
+ p    { margin-top: 2; margin-bottom: 10; margin-left: 0; }
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 10;">
+
+<p></p>
+<p>&nbsp;</p>
+
+<h2>ASCOM C# LocalServer Inno Setup Walk-Through</h2>
+
+<hr>
+<p>
+The following is an annotated walk-through example of generating a Windows install .EXE using the example<br>
+of generating an ASCOM C# LocalServer for a fictitious company/product called Acme serving an ASCOM<br>
+Focuser driver and a FilterWheel driver.
+The end result is a working Windows install .EXE of a LocalServer<br>
+skeleton framework with a tested "working", "non-functional" local server serving two ASCOM drivers.<br>&nbsp;
+  - "working" means the drivers pass the Conformance Checker tool<br>&nbsp;
+  - "non-functional" means they control no actual hardware (yet)
+</p>
+<p>
+Development Environment<br>&nbsp;
+ - 64-bit Windows 7<br>&nbsp;
+ - Visual C# 2010 Express Edition<br>&nbsp;
+ - ASCOM Platform 6.1SP1 installed<br>&nbsp;
+ - ASCOM Platform Developer Components installed<br>&nbsp;
+ - ASCOM Driver Conformance Checker installed<br>&nbsp;
+ - Inno Setup installed<br>&nbsp;
+ - Inno Setup QuickStart Pack installed
+</p>
+<br>
+
+<hr>
+
+<table border="0" width="750">
+  <tr> 
+    <td align="right" valign="top">
+      1)
+    </td>
+    <td>
+      Run the ASCOM <i>Driver Install Script Generator</i>
+      <br><br>
+      <img src="CSharp/ASCOM LocalServer/Inno Setup/Images/SetupScreen.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      2)
+    </td>
+    <td>
+      Select Driver Information:->Technology: <b>.NET local server (exe)</b><br>
+      (LocalServers developed in Visual C# are .NET local server EXE's.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      3)
+    </td>
+    <td>
+      Set Driver Information:->Short Name: <b>Acme</b><br>
+      (This is the company or product name as shown in the install screens.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      4)
+    </td>
+    <td>
+      Select Driver Information:->Type:-> <b>Focuser</b><br>
+      (This doesn't really account for a multiple driver LocalServer!!!)<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      5)
+    </td>
+    <td>
+      Set Driver Information:->Version: <b>1.2</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      6)
+    </td>
+    <td>
+      Browse to and select Server Source Files:->Source Folder: <b>...\CSharp Projects\ASCOM\Acme\Server</b><br>
+      (This is the base folder path of the server, read-me, and server source files.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      7)
+    </td>
+    <td>
+      Browse to and select Server's Source Files:->Main Driver File: <b>ASCOM.Acme.Server.exe</b><br>
+      (Note: The script generator always prepends "bin\Release" to this file name. If this is not
+       correct, it will need to be subsequently changed in the Inno Script Studio tool.)<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      8)
+    </td>
+    <td>
+      Browse to and select Server's Source Files:->ReadMe File: <b>ReadMe.htm</b><br>
+      (This needs to be the release notes or local server/drivers user information file, not the ReadMe.htm
+       that is part of the LocalServer template.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      9)
+    </td>
+    <td>
+      Driver Developer:->Name: <b>XYZ</b><br>
+      (This is the company or developer's name as shown in the 
+       "Support" dialog of the Windows <i>Add/Remove Programs</i> tool.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      10)
+    </td>
+    <td>
+      Driver Developer:->Email: <b>xyx@xyz.com</b><br>
+      (This is the email address as shown in the 
+       "Support" dialog of the Windows <i>Add/Remove Programs</i> tool.)</b><br><br>
+      <img src="CSharp/ASCOM LocalServer/Inno Setup/Images/LocalServer.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      11)
+    </td>
+    <td>
+      Save<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    The script generator saves the information in an Inno script in the Server's
+    project folder and opens Inno Script Studio.<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      12)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]AppName to <b>"ASCOM Acme Focuser & FilterWheel Drivers Server"</b><br>
+      (This is the company and product name as shown in the install screens.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      13)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]AppVerName to <b>"ASCOM Acme FocuserFilterWheel Driver 1.2"</b><br>
+      (This is the product name as shown in the <i>Add/Remove Programs</i> tool.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      14)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]AppSupportURL to <b>"http://groups.yahoo.com/group/ASCOM-Talk/"</b><br>
+      (This is the link address as shown in the 
+       "Help link" dialog of the Windows <i>Add/Remove Programs</i> tool.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      15)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]DefaultDirName to <b>"{cf}\ASCOM\Acme\FocuserFilterWheel"</b><br>
+      (This is the folder path where the LocalServer and Drivers will be placed during the install.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      16)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]OutputBaseFilename to <b>"Acme FocuserFilterWheel Setup"</b><br>
+      (This will be the file name of the generated Windows install .EXE.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      17)
+    </td>
+    <td>
+      In Inno Script Studio, change the [Setup]UninstallFilesDir to <b>"{cf}\ASCOM\Uninstall\Acme\FocuserFilterWheel"</b><br>
+      (This is the folder path where the uninstall information will be placed during the install.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      18)
+    </td>
+    <td>
+      In Inno Script Studio, replace the contents of the [Dirs] section with:<br>
+      <code>Name: "{cf}\ASCOM\Uninstall\Acme"; Flags: uninsalwaysuninstall<br>
+      Name: "{cf}\ASCOM\Uninstall\Acme\FocuserFilterWheel"</code><br>
+      (These are the folders added on install and removed on uninstall.)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      19)
+    </td>
+    <td>
+      In Inno Script Studio, replace the contents of the [Files] section with:<br>
+      <code>Source: ".\bin\Debug\ASCOM.Acme.Server.exe"; DestDir: "{app}"<br>
+      Source: ".\bin\Debug\ASCOM.Acme.Focuser.dll"; DestDir: "{app}"<br>
+      Source: ".\bin\Debug\ASCOM.Acme.FilterWheel.dll"; DestDir: "{app}"<br>
+      Source: ".\ReadMe.htm"; DestDir: "{app}"; Flags: isreadme</code><br>
+      (These are the files added on install and removed on uninstall.)</b><br>
+      (For the Release build configuration, the DLL and EXE paths will probably include "Release" instead of "Debug".)</b><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      20)
+    </td>
+    <td>
+      Save any changes<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      21)
+    </td>
+    <td>
+    Make sure solution is closed in the Visual Studio IDE and
+    compile the Inno script with Project->Compile<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      22)
+    </td>
+    <td>
+    Exit Inno Script Studio<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    The server setup EXE is now located in the Server project folder as: <b>Acme FocuserFilterWheel Setup.exe</b>
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      23)
+    </td>
+    <td>
+      Run the setup's <i>Acme FocuserFilterWheel Setup.exe</i> to install the Acme Focuser & FilterWheel Server drivers
+      <br><br>
+      <img src="CSharp/ASCOM LocalServer/Inno Setup/Images/SetupWizard.png"><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      24)
+    </td>
+    <td>
+    Verify the following folders and files are added in: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Acme\FocuserFilterWheel<br>
+     - ASCOM.Acme.Focuser.dll<br>
+     - ASCOM.Acme.FilterWheel.dll<br>
+     - ASCOM.Acme.Server.exe<br>
+     - ReadMe.htm<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      25)
+    </td>
+    <td>
+    Verify the following folder and files are added in: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Acme\FocuserFilterWheel<br>
+     - unins000.dat<br>
+     - unins000.exe
+     <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+    At this point, the Acme Focuser and FilterWheel drivers should be available for use.
+    <br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      26)
+    </td>
+    <td>
+    Run the 32-bit ASCOM <b>Conform</b> tool, choose the <i>Acme Focuser</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      27)
+    </td>
+    <td>
+    Run the 32-bit ASCOM <b>Conform</b> tool, choose the <i>Acme FilterWheel</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the FilterWheel
+    driver passes ASCOM validation!!<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      28)
+    </td>
+    <td>
+    Run the 64-bit ASCOM <b>Conform</b> tool, choose the <i>Acme Focuser</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      29)
+    </td>
+    <td>
+    Run the 64-bit ASCOM <b>Conform</b> tool, choose the <i>Acme FilterWheel</i>,<br>
+    Check Conformance and verify that no errors, warnings or issues are found and the FilterWheel
+    driver passes ASCOM validation!!<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      30)
+    </td>
+    <td>
+    Run the Windows uninstall tool to uninstall <i>ASCOM Acme FocuserFilterWheel Driver 1.2</i><br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      31)
+    </td>
+    <td>
+    Verify the following folder (and its files) has been removed from: <br>
+    C:\Program Files (x86)\Common Files\ASCOM<br>
+     - Acme\FocuserFilterWheel<br>
+     - Acme<br><br>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="right" valign="top">
+      32)
+    </td>
+    <td>
+    Verify the following folder (and its files) has been removed from: <br>
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall<br>
+     - Acme\FocuserFilterWheel<br>
+     - Acme
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+    At this point, the Acme Focuser and FilterWheel drivers should no longer be available in
+    Conform's Select Driver.
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      See
+      <a href="ASCOM_CSharp_InnoSetup_LocalServer_Checklist.htm">
+      Checklist</a>
+      for simple checklist version.
+      <br>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2"><br>
+      <br>
+    </td>
+  </tr>
+</table>
+
+  </body>
+</html>
+
