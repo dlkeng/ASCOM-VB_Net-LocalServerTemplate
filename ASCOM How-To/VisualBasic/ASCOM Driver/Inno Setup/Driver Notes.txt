@@ -1,0 +1,70 @@
+Inno Setup ASCOM Driver (for VB)
+-----------------------
+1) Run the ASCOM Driver Install Script Generator
+   {Image: SetupScreen.png}
+2) Select Driver Information:->Technology: .NET assembly (dll)
+3) Set Driver Information:->Short Name:    Acme
+4) Select Driver Information:->Type:->     Focuser
+5) Set Driver Information:->Version:       1.2
+6) Browse to and select Focuser Source Files:->Source Folder:      ...\VB Projects\ASCOM\Acme\Focuser
+7) Browse to and select Focuser's Source Files:->Main Driver File: ASCOM.Acme.Focuser.dll
+8) Browse to and select Focuser's Source Files:->ReadMe File:      ReadMe.htm
+9) Driver Developer:->Name:   XYZ
+10) Driver Developer:->Email: xyx@xyz.com
+    {Image: Driver.png}
+11) Save
+
+The script generator saves the information in an Inno script in the Focuser's
+project folder and opens Inno Script Studio.
+
+12) In Inno Script Studio, change the [Setup]AppSupportURL to "http://groups.yahoo.com/group/ASCOM-Talk/"
+13) In Inno Script Studio, change the [Setup]OutputBaseFilename to "Acme Focuser Setup"
+14) In Inno Script Studio, replace the contents of the [Files] section with:
+     Source: ".\bin\Debug\ASCOM.Acme.Focuser.dll"; DestDir: "{app}"
+     Source: ".\ReadMe.htm"; DestDir: "{app}"; Flags: isreadme
+15) Save any changes
+16) Make sure solution is closed in the Visual Studio IDE and
+    compile the Inno script with Project->Compile
+17) Exit Inno Script Studio
+
+The driver setup EXE is now located in the Focuser project folder as: Acme Focuser Setup.exe
+
+18) Run the setup's Acme Focuser Setup.exe to install the Acme Focuser driver
+    {Image: SetupWizard.png}
+19) Verify the following files are added in: 
+    C:\Program Files (x86)\Common Files\ASCOM\Focuser
+     - ASCOM.Acme.Focuser.dll
+     - ReadMe.htm
+20) Verify the following folder and files are added in: 
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Focuser\Acme
+     - unins000.dat
+     - unins000.exe
+
+At this point, the Acme Focuser driver should be available for use.
+
+21) Run the 32-bit ASCOM Conform tool, choose the Acme Focuser,
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!
+22) Run the 64-bit ASCOM Conform tool, choose the Acme Focuser,
+    Check Conformance and verify that no errors, warnings or issues are found and the Focuser
+    driver passes ASCOM validation!!
+
+23) Run the Windows uninstall tool to uninstall ASCOM Acme Focuser Driver 1.2
+24) Verify the following files have been removed from: 
+    C:\Program Files (x86)\Common Files\ASCOM\Focuser
+     - ASCOM.Acme.Focuser.dll
+     - ReadMe.htm
+25) Verify the following folder (and its files) has been removed from: 
+    C:\Program Files (x86)\Common Files\ASCOM\Uninstall\Focuser
+     - Acme
+
+At this point, the Acme Focuser should no longer be available in Conform's Select Driver.
+Note: If the driver was installed on a 64-bit O.S., after the uninstall, some
+      of the registry entries associated with the 64-bit install still remain
+      in the registry. This is a known issue!
+      (Work-around: In the Inno Setup script, in the [UninstallRun] section,
+       after the "{dotnet4032}\regasm.exe" line, add a "{dotnet4064}\regasm.exe"
+       line, copied from the [Run] section, to re-register the 64-bit driver
+       immediately before unregistering it.)
+
+
