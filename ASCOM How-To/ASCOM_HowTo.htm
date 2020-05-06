@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+<title>ASCOM How To</title>
+
+<style type="text/css">
+ body { font-family:Arial; font-size:14; }
+ table { font-family:Arial; font-size:14; }
+ ul   { margin-top: 0; }
+ li   { margin-bottom: 2; margin-top: 2; }
+ h4   { margin-bottom: 2; }
+ hr   { margin-left: -10; }
+</style>
+
+</head>
+
+<body marginheight="0" marginwidth="0" style="margin: 0 0 0 10;">
+
+<p>
+ <a href="http://ascom-standards.org/">
+ <img src="ASCOM.png" align="right" alt="ASCOM Standards for Astronomy" 
+      title="ASCOM Standards for Astronomy" border="0"><br></a>
+</p>
+
+<h2>ASCOM Drivers and LocalServer How To</h2>
+
+<hr>
+This webpage provides examples of the steps involved in setting up Visual Studio project skeleton frameworks for<br>
+development of ASCOM drivers or local servers in both Visual C# and Visual Basic using the <b>ASCOM<br>
+Platform 6.1SP1</b> and the <b>ASCOM Platform Developer Components</b> and <b>Driver Conformance Checker</b> tools<br>
+on a 64-bit Windows 7 development PC.<br>
+
+The resulting skeleton frameworks generate "working", "non-functional" ASCOM drivers or local servers.<br>
+&nbsp; - "working" means they pass the Conformance Checker tool<br>
+&nbsp; - "non-functional" means they control no actual hardware (yet)<br><br>
+
+Additionally, the steps for generating a Windows installer EXE using <b>ASCOM Driver Install Script Generator</b><br>
+and <b>Inno Setup</b> are provided. <br>
+The <b>Driver</b> examples demonstrate the development of the skeleton framework for an ASCOM Focuser driver<br>
+for a fictitious company/product called Acme.<br><br>
+
+The <b>LocalServer</b> examples demonstrate the development of the skeleton framework for local server-served ASCOM<br>
+Focuser and FilterWheel drivers for a fictitious company/product called Acme.<br><br>
+
+Each example includes a Checklist of the sequential steps involved, a Walk-Through of those steps with<br>
+annotated screen images and additional commentary, a Visual studio project of the example's code,<br>
+and a PDF file of both the Checklist and Walk-Through. (The Inno Setup example scripts are included in<br>
+the example code for its companion driver/local server.)<br><br>
+
+For Visual Basic local server development, an ASCOM LocalServer Template VB is provided.<br><br>
+
+Finally, an ASCOM drivers/local server developer FAQ, ASCOM Driver Install Script Generator information,<br>
+and a working example of a LocalServer-served Focuser & FilterWheel Drivers using a single, shared<br>
+COM port to a custom Focuser/FilterWheel controller is provided.<br><br>
+
+(The examples use the Visual Studio 2010 Express editions, but should work {<i>untested</i>} in the
+full editions<br> 
+&nbsp;and other newer editions with minor or no modifications.)
+
+
+<h4 >ASCOM Development Framework Skeletons</h4>
+<hr>
+
+<table  border="0" width="650">
+  <tr>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>C# ASCOM Driver:</b><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_Driver_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_Driver_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_Driver_Checklist.pdf">
+        PDF</a><br>
+        &nbsp;
+        <a href="ASCOM CSharp Driver.zip">
+        Example Code</a>&nbsp;<small>.zip</small>
+       </li>
+      </ul>
+    </td>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>C# ASCOM Driver Inno Setup:</b><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_Driver_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_Driver_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_Driver_Checklist.pdf">
+        PDF</a>
+       </li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>C# ASCOM LocalServer:</b><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_LocalServer_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_LocalServer_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_LocalServer_Checklist.pdf">
+        PDF</a><br>
+        &nbsp;
+        <a href="ASCOM CSharp LocalServer.zip">
+        Example Code</a>&nbsp;<small>.zip</small>
+        </li>
+      </ul>
+    </td>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>C# ASCOM LocalServer Inno Setup:</b><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_LocalServer_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_LocalServer_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_CSharp_InnoSetup_LocalServer_Checklist.pdf">
+        PDF</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>VB ASCOM Driver:</b><br>
+        &nbsp;
+        <a href="ASCOM_VB_Driver_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_Driver_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_Driver_Checklist.pdf">
+        PDF</a><br>
+        &nbsp;
+        <a href="ASCOM VisualBasic Driver.zip">
+        Example Code</a>&nbsp;<small>.zip</small>
+        </li>
+      </ul>
+    </td>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>VB ASCOM Driver Inno Setup:</b><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_Driver_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_Driver_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_Driver_Checklist.pdf">
+        PDF</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>VB ASCOM LocalServer:</b><br>
+        &nbsp;
+        <a href="ASCOM_VB_LocalServer_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_LocalServer_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_LocalServer_Checklist.pdf">
+        PDF</a><br>
+        &nbsp;
+        <a href="ASCOM VisualBasic LocalServer.zip">
+        Example Code</a>&nbsp;<small>.zip</small><br><br>
+        &nbsp;
+        <a href="ASCOM LocalServer Template VB.zip">
+        ASCOM LocalServer Template VB</a>&nbsp;<small>.zip</small><br>
+        &nbsp;&nbsp;(Note: This template was not included in the<br>
+        &nbsp;&nbsp;ASCOM Platform Developer Components for<br>
+        &nbsp;&nbsp;Platform 6.1SP1)
+        </li>
+      </ul>
+    </td>
+    <td align="left" valign="top">
+      <ul>
+        <li>
+        <b>VB ASCOM LocalServer Inno Setup:</b><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_LocalServer_Checklist.htm">
+        Checklist</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_LocalServer_WalkThru.htm">
+        Walk-Through</a><br>
+        &nbsp;
+        <a href="ASCOM_VB_InnoSetup_LocalServer_Checklist.pdf">
+        PDF</a>
+        </li>
+      </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" colspan="2">
+      <ul>
+        <li>
+        <a href="LocalServerReadMe.htm">
+        ASCOM LocalServer ReadMe Info</a> &nbsp;<small>(updated)</small>
+        </li>
+        <li>
+        <a href="ASCOM_InstallScriptGen.htm">
+        ASCOM Driver Install Script Generator Info</a>
+        </li>
+        <li>
+        <a href="ASCOM_FAQ.htm">
+        ASCOM Drivers and LocalServer Developer FAQ</a><br><br>
+        </li>
+        <li>
+        <a href="JBudd.zip">
+        Working ASCOM JBudd LocalServer-served Focuser & FilterWheel Drivers</a>&nbsp;<small>.zip</small>
+        </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+
+  <tr>
+    <td colspan="2">
+      <hr>
+    </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" colspan="2">
+      <ul>
+        <li>
+          References: (Platform 6.1SP1 Developer Documentation)
+          <ul>
+            <li>
+              "Introduction to Developing ASCOM Drivers.pdf"
+            </li>
+            <li>
+              "Making a Local Server based Driver.pdf"
+            </li>
+            <li>
+              "ReadMe.htm" from ASCOM LocalServer's template
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<hr>
+<br><br>
+
+  </body>
+</html>
