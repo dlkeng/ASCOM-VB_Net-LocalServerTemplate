@@ -1,0 +1,99 @@
+ASCOM Driver Install Script Generator
+=====================================
+Screen Items:
+-------------           'Tool Tips'
+ Driver Information:
+    Technology:         "The technology and type of the driver"
+        - In-process COM (dll)
+        - Local server COM (exe)
+        - .NET assembly (dll)
+        - .NET local server (exe)
+    Friendly Name:      "(COM only) Descriptive title that users will see in the Chooser"
+        - for .NET, (set by .NET driver's ASCOM reg. info)
+    Short Name:         "The first (COM) or second (.NET) part of the ProgID for the driver"
+    Type:               "The last part of the driver's primary ProgID"
+        - Camera
+        - Dome
+        - FilterWheel
+        - Focuser
+        - Rotator
+        - SafetyMonitor
+        - Switch
+        - Telescope
+        - Video
+    Aux Type:           "(optional) The last part of the driver's secondary ProgID"
+    Version:            "The version of the driver"
+ Source Files:
+    Source Folder:      "Location of the driver itself and (optionally) the read-me for the driver."
+                        "For .NET the driver assembly is assumed to be in the ..\bin\Release subfolder."
+    Main Driver File:   "The driver DLL or EXE file"
+    ReadMe File:        "The read-me file for the driver (HTML or text)"
+                        [ ] Include option to install driver source code
+ Driver Developer:
+    Name:               "Your name"
+    Email:              "Your email address"
+
+-----------------------------------------------------------------------------------------------------------
+
+ Driver Information:
+    Technology:         select ".NET assembly (dll)" for driver, ".NET local server (exe)" for server
+    Friendly Name:      not settable by user for .NET types
+    Short Name:         the second (.NET) part of the ProgID for the driver (i.e. product name)
+        part of: [Setup]AppName
+        part of: [Setup]AppVerName
+        part of: [Setup]OutputBaseFilename
+        part of: [Setup]UninstallFilesDir
+        part of: [Dirs] directory name
+    Type:               Driver: select the type of ASCOM driver, Server: ???
+        part of: [Setup]AppName
+        part of: [Setup]AppVerName
+        part of: [Setup]DefaultDirName
+        part of: [Setup]UninstallFilesDir
+        part of: [Dirs] directory name
+    Aux Type:           not settable by user for .NET types
+    Version:            set the version number of the driver
+        part of: [Setup]AppVerName
+        part of: [Setup]AppVersion
+ Source Files:
+    Source Folder:      base folder path of the driver and read-me
+        for .NET, the driver DLL or server EXE expected in subfolder "bin\Release"
+        part of: [Files]Source      driver DLL or server EXE file
+        part of: [Files]Source      read-me file
+        part of: [Files]Source      source files (if sources included)
+    Main Driver File:   the name of the driver DLL or server EXE file
+        part of: [Files]Source            driver DLL or server EXE
+        part of: [Run]Filename            driver DLL registration
+        part of: [UninstallRun]Filename   driver DLL unregistration
+    ReadMe File:        the read-me file for the driver or server (HTML or text)
+                        [X] Include option to install driver source code
+                        adds [Tasks]Name and [Files]Source to install source files
+ Driver Developer:
+    Name:               developer or company name
+        part of: [Setup]AppPublisher
+    Email:              developer or company email address
+        part of: [Setup]AppPublisher
+        part of: [Setup]AppPublisherURL
+
+[section_name]section_directive
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
