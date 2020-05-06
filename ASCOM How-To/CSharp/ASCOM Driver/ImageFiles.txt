@@ -1,0 +1,21 @@
+C# ASCOM Driver How-To Images
+-----------------------------
+
+AddTestDriver.png
+
+Conform32Bits.png
+Conform64Bits.png
+ConformChooserFocuser.png
+ConformFocuser.png
+ConformFocuserProperties.png
+
+FocuserAssemblyName.png
+FocuserNET3.5.png
+
+NewProject.png
+
+SaveProject.png
+
+TestDriverResults.png
+
+WizardFocuser.png

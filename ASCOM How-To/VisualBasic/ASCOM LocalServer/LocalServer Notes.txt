@@ -1,0 +1,261 @@
+Visual Basic ASCOM Local Server
+-------------------------------
+Two types of development:
+ A) ("Making a Local Server based Driver.pdf" recommendation)
+    Start a Visual Studio solution with the local server template
+     - add 1 or more driver projects using the driver template
+     - develop and test the driver(s) as in-proc DLLs
+     - change driver(s) to be LocalServer served
+     - test drivers served by the local server
+ B) (LocalServer "ReadMe.htm" recommendation)
+    Start a Visual Studio solution with the driver template
+     - optionally add any more drivers using the driver template
+     - develop and test the driver(s) as in-proc DLLs
+     - add a project with the local server template
+     - change driver(s) to be LocalServer served
+     - test drivers served by the local server
+Type B is more work to put the local server files in the correct namespace
+and other naming cleanup (not recommended)
+ - requires "Find In Files" and replacement to correct naming usage
+
+--------------------------------------------------------------------------------
+Visual Basic 2010 Express <---- Run as administrator !!!
+-------------------------
+0) Obtain and copy the "ASCOM 6 Local Server Template (VB)" file "ASCOM LocalServer Template VB.zip"
+   to the Visual Basic Project Templates folder: 
+   C:\Users\Dan\Documents\Visual Studio 2010\Templates\ProjectTemplates\Visual Basic\ASCOM6
+1) New Project - ASCOM 6 Local Server Template (VB)
+    - Name: Acme
+   {Image: NewProject.png}
+2) File->Save All -
+    - Name: Server
+    - Location: ...\VB Projects\ASCOM
+    - Solution Name: Acme       <----------- MAKE SURE!!! because Visual Studio makes same as Name!!!
+    - [X] Create directory for solution
+   {Image: SaveProject.png}
+3) Set Server Properties->Application->Assembly name: ASCOM.Acme.Server
+   {Image: ServerAssemblyName.png}
+
+4) Add New Project for Focuser driver
+    - File->Add->New Project...
+    - ASCOM Device Driver (VB)
+       - Name: Focuser
+   {Image: AddFocuser.png}
+5) ASCOM Driver Project Wizard
+    - Device Class      - Focuser
+    - Device Name/Model - Acme
+    - Create
+   {Image: WizardFocuser.png}
+6) Set Focuser Properties->Compile->Advanced Compile Options...
+        Target framework (all configurations): .NET Framework 3.5
+   The driver must use the same .NET Framework as the server.
+   {Image: FocuserNET3.5.png}
+7) Enable only 32-bit code generation for the Release configuration of the Focuser
+   driver by modifying (outside of the Visual Basic IDE environment) the 
+   <PlatformTarget> tag in the Focuser driver's Focuser.vbproj file to
+   be x86 located under the following tag:
+     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+   (i.e. in Focuser.vbproj: <PlatformTarget>x86</PlatformTarget>)
+8) Enable XML documentation for the Focuser driver by modifying (outside of the Visual Basic IDE
+   environment) the empty <DocumentationFile> tags in the Focuser driver's Focuser.vbproj file to
+   be the project's name Focuser.xml located under the following tags:
+     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+   (i.e. in Focuser.vbproj: <DocumentationFile>Focuser.xml</DocumentationFile>)
+   (no "Generate XML documentation file" option in Visual Basic 2010 Express Edition's Properties->Compile)
+
+9) Add New Project for FilterWheel driver
+    - File->Add->New Project...
+    - ASCOM Device Driver (VB)
+       - Name: FilterWheel
+   {Image: AddFilterWheel.png}
+10) ASCOM Driver Project Wizard
+     - Device Class      - FilterWheel
+     - Device Name/Model - Acme
+     - Create
+     {Image: WizardFilterWheel.png}
+11) Set FilterWheel Properties->Compile->Advanced Compile Options...
+        Target framework (all configurations): .NET Framework 3.5
+    The driver must use the same .NET Framework as the server.
+   {Image: FilterWheelNET3.5.png}
+12) Enable only 32-bit code generation for the Release configuration of the FilterWheel
+    driver by modifying (outside of the Visual Basic IDE environment) the 
+    <PlatformTarget> tag in the FilterWheel driver's FilterWheel.vbproj file to
+    be x86 located under the following tag:
+      <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    (i.e. in FilterWheel.vbproj: <PlatformTarget>x86</PlatformTarget>)
+13) Enable XML documentation for the FilterWheel driver by modifying (outside of the Visual Basic IDE
+    environment) the empty <DocumentationFile> tags in the FilterWheel driver's FilterWheel.vbproj file to
+    be the project's name FilterWheel.xml located under the following tags:
+      <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    (i.e. in FilterWheel.vbproj: <DocumentationFile>FilterWheel.xml</DocumentationFile>)
+    (no "Generate XML documentation file" option in Visual Basic 2010 Express Edition's Properties->Compile)
+
+14) Build the solution
+
+15) Run the ASCOM Conform tool. If it is running in 64 bit mode, change it to run in 32 bit mode with:
+     Options->Conformance Options->General->Conform Settings: [X] Run as 32bit on a 64bit OS
+     (this is needed because in order to be served by the 32-bit LocalServer, the
+      driver is only a 32-bit driver)
+    {Image: Non64bitReg.png}
+    {Image: Conform32Bits.png}
+16) Using the ASCOM Conform tool, Options->Check Focuser, Options->Select Driver,
+    select the Acme Focuser
+    {Image: ConformChooserFocuser.png}
+17) Select ASCOM Focuser Chooser->Properties... to get the DeviceName Setup dialog for the Focuser
+    {Image: ConformFocuserProperties.png}
+18) Run the Check Conformance and verify that no errors, warnings or issues are found and the
+    Focuser driver passes ASCOM validation!!
+    {Image: ConformFocuser.png}
+19) Using the ASCOM Conform tool, Options->Check Filter Wheel, Options->Select Driver,
+    select the Acme FilterWheel successfully
+    {Image: ConformChooserFilterWheel.png}
+20) Select ASCOM FilterWheel Chooser->Properties... to get the DeviceName Setup dialog for the FilterWheel
+    {Image: ConformFilterWheelProperties.png}
+21) Run the Check Conformance and verify that no errors, warnings or issues are found and the
+    FilterWheel driver passes ASCOM validation!!
+    {Image: ConformFilterWheel.png}
+
+22) Add New Project for application for testing drivers
+    - File->Add->New Project...
+     - ASCOM Driver Test Forms Application (VB)
+        - Name: TestDrivers
+    {Image: AddTestDrivers.png}
+23) ASCOM Driver Project Wizard
+    - Device Class      - Focuser
+    - Device Name/Model - Acme
+    - Create
+   {Image: WizardFocuser.png}
+24) If Option Strict is turned on, remove the following error:
+    On Form1.vb, line 43, add .ToString to the end of the line
+    {Image: OptionStrictError.png}
+25) Right-Click Solution Explorer->TestDrivers project->Set as Startup Project to set
+    the TestDrivers project as the startup project
+26) Build the solution
+27) Run the code, click the test form's Choose button, select the Acme Focuser,
+    select ASCOM Focuser Chooser->Properties... to get the DeviceName Setup dialog for the Focuser,
+    OK those dialogs and verify the ASCOM.Acme.Focuser is shown on the test form.
+   {Image: TestDriversResults.png}
+
+At this point, additional code can be added to the separate Focuser and FilterWheel drivers
+to independently control the Focuser and FilterWheel hardware and additional code and controls
+can be added to the TestDrivers project to exercise and debug the features of the in-proc DLL
+Focuser and FilterWheel drivers.
+
+28) Clean the solution with Build->Clean Solution so that the drivers will be automatically
+    unregistered from COM and ASCOM
+    (if menu Build->Clean Solution is not shown, use Tools->Customize->Commands->Menu bar: Build->
+     Add Command... -> Categories: Build, Commands: Clean Solution, OK, Close to add that menu item)
+
+At this point, the Acme Focuser and FilterWheel should no longer be available in Conform's Select Driver.
+
+=========================================================================================================
+
+Now, make the changes to incorporate the LocalServer functionality.
+
+29) In Focuser Properties->Compile->
+      - Set Configuration: All Configurations, Platform: Active (Any CPU)
+      - Set Output->Output path: ..\Server\bin\Debug\
+      - Save project
+    {Image: FocuserOutput.png}
+30) Disable Register for COM interop for the Focuser driver by modifying (outside
+    of the Visual Basic IDE environment) the <RegisterForComInterop> tag in the Focuser driver's
+    Focuser.vbproj file to be false located under the following tag:   (default was "true")
+     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    (i.e. in Focuser.vbproj: <RegisterForComInterop>false</RegisterForComInterop>)
+31) Right-Click Focuser project->Add Reference...->Projects->Server to add a reference
+    to the Server project to the Focuser Project
+32) Add the following class to the Focuser project's Driver.vb file just before
+    the Focuser class definition:
+    Friend Class FocuserLocalServerConstants
+        Friend Const DRIVER_ID As String = "ASCOM.Acme.Focuser"
+        Friend Const DRIVER_DESCRIPTION As String = "Acme Focuser"
+    End Class
+    {Image: FocuserDriverMods.png}
+33) Add the following attribute declarations to the Focuser project's Driver.vb Focuser class definition:
+    <ProgId(FocuserLocalServerConstants.DRIVER_ID)> _
+    <ServedClassName(FocuserLocalServerConstants.DRIVER_DESCRIPTION)> _
+    {Image: FocuserDriverMods.png}
+34) Change the Focuser project's Driver.vb Focuser class definition to inherit ReferenceCountedObjectBase:
+    Public Class Focuser
+        Inherits ReferenceCountedObjectBase
+    {Image: FocuserDriverMods.png}
+35) Change the Focuser project's Driver.vb driverID definition to:
+    Friend Shared driverID As String = FocuserLocalServerConstants.DRIVER_ID
+    {Image: FocuserDriverMods.png}
+36) Change the Focuser project's Driver.vb driverDescription definition to:
+    Private Shared driverDescription As String = FocuserLocalServerConstants.DRIVER_DESCRIPTION
+    {Image: FocuserDriverMods.png}
+37) Remove the Focuser project's Driver.vb ASCOM registration region code
+
+38) In FilterWheel Properties->Compile->
+      - Set Configuration: All Configurations, Platform: Active (Any CPU)
+      - Set Output->Output path: ..\Server\bin\Debug\
+      - Save project
+    {Image: FilterWheelOutput.png}
+39) Disable Register for COM interop for the FilterWheel driver by modifying (outside
+    of the Visual Basic IDE environment) the <RegisterForComInterop> tag in the FilterWheel driver's
+    FilterWheel.vbproj file to be false located under the following tag:   (default was "true")
+     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    (i.e. in FilterWheel.vbproj: <RegisterForComInterop>false</RegisterForComInterop>)
+40) Right-Click FilterWheel project->Add Reference...->Projects->Server to add a reference
+    to the Server project to the FilterWheel Project
+41) Add the following class to the FilterWheel project's Driver.vb file just before
+    the FilterWheel class definition:
+    Friend Class FilterWheelLocalServerConstants
+        Friend Const DRIVER_ID As String = "ASCOM.Acme.FilterWheel"
+        Friend Const DRIVER_DESCRIPTION As String = "Acme FilterWheel"
+    End Class
+    {Image: FilterWheelDriverMods.png}
+42) Add the following attribute declarations to the FilterWheel project's Driver.vb FilterWheel class definition:
+    <ProgId(FilterWheelLocalServerConstants.DRIVER_ID)> _
+    <ServedClassName(FilterWheelLocalServerConstants.DRIVER_DESCRIPTION)> _
+    {Image: FilterWheelDriverMods.png}
+43) Change the FilterWheel project's Driver.vb FilterWheel class definition to inherit ReferenceCountedObjectBase:
+    Public Class FilterWheel
+        Inherits ReferenceCountedObjectBase
+    {Image: FilterWheelDriverMods.png}
+44) Change the FilterWheel project's Driver.vb driverID definition to:
+    Friend Shared driverID As String = FilterWheelLocalServerConstants.DRIVER_ID
+    {Image: FilterWheelDriverMods.png}
+45) Change the FilterWheel project's Driver.vb driverDescription definition to:
+    Private Shared driverDescription As String = FilterWheelLocalServerConstants.DRIVER_DESCRIPTION
+    {Image: FilterWheelDriverMods.png}
+46) Remove the FilterWheel project's Driver.vb ASCOM registration region code
+
+47) Right-Click Solution Explorer->Server project->Set as Startup Project to set
+    the local server as the startup project
+    {Image: ServerStartup.png}
+48) Build the solution
+
+49) Add Server Properties->Debug->Start Options->Command line arguments: /register
+    {Image: ServerRegister.png}
+50) Run the project (to have the local server register the drivers with COM and ASCOM)
+    (this registers the drivers for both 32 bit and 64 bit {on a 64-bit machine}, so
+     the ASCOM Conform tool can now be run as 64 bits without problems)
+51) Using the ASCOM Conform tool, Options->Check Focuser, Options->Select Driver,
+    select the Acme Focuser
+52) Select ASCOM Focuser Chooser->Properties... to get the DeviceName Setup dialog for the Focuser
+53) Run the Check Conformance and verify that no errors, warnings or issues are found and the
+    ASCOM.Acme.Focuser driver passes ASCOM validation!!
+54) Using the ASCOM Conform tool, Options->Check Filter Wheel, Options->Select Driver,
+    select the Acme FilterWheel
+55) Select ASCOM FilterWheel Chooser->Properties... to get the DeviceName Setup dialog for the FilterWheel
+56) Run the Check Conformance and verify that no errors, warnings or issues are found and the
+    ASCOM.Acme.FilterWheel driver passes ASCOM validation!!
+57) Change Server Properties->Debug->Start Options->Command line arguments: /unregister
+58) Run the project (to have the local server unregister the drivers with COM and ASCOM)
+
+At this point, code can be changed in the Focuser and FilterWheel drivers to appropriately
+work with the common Focuser and FilterWheel hardware and additional code and controls
+can be added to the TestDrivers project to exercise and debug the features of the 
+LocalServer-served Focuser and FilterWheel drivers.
+
+When the ASCOM local server and drivers development is complete, the ASCOM Driver Install Script Generator
+can be used to generate an Inno Setup script to generate a Windows setup executable
+that can be used to distribute the server and drivers just developed.
+Note: The server/drivers solution should be closed in the IDE before running the Inno Setup compiler.
+
+
+
